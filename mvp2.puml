@@ -1,0 +1,80 @@
+@startuml Modelagem MVP2
+!define table(x) class x << (T,#FFAAAA) >>
+
+table(cadastro_servidores) {
+    + id_SERVIDOR_PORTAL: INT <<PK>>
+    + NOME: STRING
+    + CPF: STRING
+}
+
+table(org_lotacao) {
+    + COD_ORG_LOTACAO: INT <<PK>>
+    + ORG_LOTACAO: STRING
+}
+
+table(org_lotacao_superior) {
+    + COD_ORGSUP_LOTACAO: INT <<PK>>
+    + ORGSUP_LOTACAO: STRING
+}
+
+table(unid_org) {
+    + COD_UORG_LOTACAO: INT <<PK>>
+    + UORG_LOTACAO: STRING
+}
+
+table(qualificacao_servidores) {
+    + Id_SERVIDOR_PORTAL: INT
+    + DESCRICAO_CARGO: STRING
+    + FUNCAO: STRING
+    + ATIVIDADE: STRING
+    + COD_UORG_LOTACAO: BIGINT
+    + COD_ORG_LOTACAO: INT
+    + COD_ORGSUP_LOTACAO: INT
+    + TIPO_VINCULO: STRING
+    + SITUACAO_VINCULO: STRING
+    + DATA_INGRESSO_ORGAO: DATE
+}
+
+table(fato_cpgf) {    
+    + cod_org: INT
+    + unid_gestora: INT
+    + ano_extrato: STRING
+    + mes_extrato: STRING
+    + cpf_portador: STRING    
+    + cnpj_cpf_fav: STRING    
+    + transaction: STRING
+    + dt_trans: DATE
+    + vlr_trans: DOUBLE
+}
+
+table(ceis){
+    + cadastro: STRING
+    + tipo_pessoa: STRING
+    + cnpj_sanc: STRING
+    + n_processo: STRING
+    + categ_sancao: STRING
+    + dt_in_san: DATE
+    + dt_fin_san: DATE
+    + dt_pub: DATE
+    + pub: STRING
+    + org_sancionador: STRING
+    + uf_orgao: STRING
+    + esfera_org: STRING
+    + fund_legal: STRING
+}
+
+table(cadastro_empresas) {
+    + cnpj: STRING <<PK>>
+    + nome: STRING
+    + razao_social: STRING
+}
+
+
+cadastro_servidores "1" -- "0..*" fato_cpgf
+org_lotacao "1" -- "0..*" fato_cpgf
+org_lotacao_superior "1" -- "0..*" fato_cpgf
+unid_org "1" -- "0..*" fato_cpgf
+cadastro_empresas "1" -- "0..*" fato_cpgf
+cadastro_empresas "1" -- "0..*" ceis
+cadastro_servidores "1" -- "1..*" qualificacao_servidores
+@enduml
